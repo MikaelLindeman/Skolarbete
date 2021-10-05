@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript">
+
+      //Skapar en lista med de namnen på objekten
+      var titles = [];
+      var genres = [];
+      var years = [];
+      var scores = [];
+
+      var titleInput = document.getElementById('title').value;
+      var genreInput = document.getElementById('genre').value;
+      var yearInput = document.getElementById('year').value;
+      var scoreInput = document.getElementById('score').value;
+
+
+      //Skapar en funktion där vi tar värdet från inputfälten
+      function completeForm() {
+        titles.push(titleInput.value);
+        genres.push(genreInput.value);
+        years.push(yearInput.value);
+        scores.push(scoreInput.value);
+      }
+
+    </script>
+  </head>
+  <body>
+
+    <!-- Textfält man fyller i informationen -->
+    <input type="text" id="title" placeholder="Titel">
+    <input type="text" id="genre" placeholder="Genre">
+    <input type="number" id="year" placeholder="Året du såg filmen">
+    <input type="text" id="score" placeholder="Ditt betyg">
+    <button type="button" onclick="completeForm()">Klicka här</button>
+
+<p id="output"></p>
+  </body>
+</html>
