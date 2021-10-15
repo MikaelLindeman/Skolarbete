@@ -1,41 +1,123 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gruppuppgiften JS 1</title>
     <script type="text/javascript">
-
-      //Skapar en lista med de namnen på objekten
-      var titles = [];
-      var genres = [];
-      var years = [];
-      var scores = [];
-
-      var titleInput = document.getElementById('title').value;
-      var genreInput = document.getElementById('genre').value;
-      var yearInput = document.getElementById('year').value;
-      var scoreInput = document.getElementById('score').value;
+//skapar en klass film
+    class Film {
+    constructor(title, year, genre, score, comment) {
+        this.title = title;
+        this.year = year;
+        this.genre = genre;
+        this.score = score;
+        this.comment = comment;
+    }
 
 
-      //Skapar en funktion där vi tar värdet från inputfälten
-      function completeForm() {
-        titles.push(titleInput.value);
-        genres.push(genreInput.value);
-        years.push(yearInput.value);
-        scores.push(scoreInput.value);
-      }
+//en toString metod som returnerar info om objektet
+toString() {
+    return "Year " + this.year + " I watched "+ this.title + " from the genre " + this.genre + " and I give it " + this.score + " out of 10. Here's a few words or keywords about it: " + this.comment + ".<br>";
+
+}
+    }
+
+
+    let film = [];
+
+    function addFilmToTheList() {
+        let newTitle = document.getElementById("title").value;
+        let newYear = document.getElementById("selectYear").value;
+        let newGenre = document.getElementById("genre").value;
+        let newScore = document.getElementById("selectNumber").value;
+        let newComment = document.getElementById("comment").value;
+
+        film.push( new Film(newTitle, newYear, newGenre, newScore, newComment));
+
+
+        writeAllFilms();
+    }
+
+    function writeAllFilms() {
+        document.getElementById("output").innerHTML = "";
+
+        //loop för att skriva ut info om objektet
+
+        for (let i = 0; i < film.length; i++) {
+            document.getElementById("output").innerHTML += film[i].toString() + "<br>";
+        }
+    }
+
 
     </script>
-  </head>
-  <body>
+</head>
+<body>
+    <h1>Don't forget about the films you've watched</h1>
+    <h2>Fill this list</h2>
+    <form>
+<div>
+    <label for="title">Do you remember the title of the film?</label>
+    <input id="title" type="text"><br>
 
-    <!-- Textfält man fyller i informationen -->
-    <input type="text" id="title" placeholder="Titel">
-    <input type="text" id="genre" placeholder="Genre">
-    <input type="number" id="year" placeholder="Året du såg filmen">
-    <input type="text" id="score" placeholder="Ditt betyg">
-    <button type="button" onclick="completeForm()">Klicka här</button>
+    <label for="year">When did you watch it?</label>
+    <!-- Mikaels kod nedan -->
+    <!-- OBS: Jag tog bort inputfältet och ersatte den med 'select' istället -->
+    <select id="selectYear">
+      <option></option>
+    </select><br>
+    <!-- Mikaels kod ovan -->
+    <label for="genre">What was the genre of the film?</label>
+    <input id="genre" type="text"><br>
 
-<p id="output"></p>
-  </body>
+    <label for="score">What score would you give it, out of 10?</label>
+    <!-- Mikaels Kod nedan -->
+    <!-- OBS: Jag tog bort inputfältet och ersatte den med 'select' istället -->
+    <select id="selectNumber">
+        <option></option>
+    </select><br>
+    <!-- Mikaels kod ovan -->
+
+    <label for="comment">Write a few words or keywords so you remember the movie</label>
+    <input id="comment" type="text"><br>
+
+
+    <input type="button" id="btn" onclick="addFilmToTheList();" value="It's in the box!">
+</div>
+</form>
+
+<div>
+    <p id="output"></p>
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+  //Mikaels Kod nedan
+  //Gör en dropdown lista med 10 alternativ
+  var select = document.getElementById("selectNumber");
+  var options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  for(var i = 0; i < options.length; i++) {
+      var optionsList = options[i];
+      var list = document.createElement("option");
+      list.innerHTML = optionsList;
+      list.value = optionsList;
+      select.appendChild(list);
+  }
+  //Gör en dropdown med år från 1960 till detta år
+  var choseYear = document.getElementById("selectYear");
+
+  var currentYear = (new Date()).getFullYear();
+
+  for (var i = 1960; i <= currentYear; i++) {
+    var yearsss = document.createElement("OPTION");
+    yearsss.innerHTML = i;
+    yearsss.value = i;
+    choseYear.appendChild(yearsss);
+  };
+  //Mikaels kod ovan
+    writeAllFilms();
+
+</script>
 </html>
