@@ -18,38 +18,127 @@
 
 //en toString metod som returnerar info om objektet
 toString() {
-    return "Year " + this.year + " I watched "+ this.title + " from the genre " + this.genre + " and I give it " + this.score + " out of 10. Here's a few words or keywords about it: " + this.comment + ".<br>";
+        return "Year " + this.year + " I watched "+ this.title + " from the genre " + this.genre + " and I give it " + this.score + " out of 10. Here's a few words or keywords about it: " + this.comment + ".<br>";
+    }
+
+    //en toString metod utan året
+toStringWithoutYear() {
+    return "I watched "+ this.title + " from the genre " + this.genre + " and I give it " + this.score + " out of 10. Here's a few words or keywords about it: " + this.comment + ".<br>";
+
+}
+
+    //en toString metod utan året
+toStringWithoutComment() {
+    return "Year " + this.year + " I watched "+ this.title + " from the genre " + this.genre + " and I give it " + this.score + " out of 10. <br>";
+
 
 }
     }
 
-
     let film = [];
 
-    //Mikael liten ändring nedan: Har ändrat .value; på newYear och newScore så de passar med mina ändringar i dokumentet
+//gör en lista av info om filmen
     function addFilmToTheList() {
-        let newTitle = document.getElementById("title").value;
-        let newYear = document.getElementById("selectYear").value;
-        let newGenre = document.getElementById("genre").value;
-        let newScore = document.getElementById("selectNumber").value;
-        let newComment = document.getElementById("comment").value;
+
+    let newTitle = document.getElementById("title").value;
+    let newYear = document.getElementById("year").value;
+    let newGenre = document.getElementById("genre").value;
+    let newScore = document.getElementById("score").value;
+    let newComment = document.getElementById("comment").value;
+
+        if(!newTitle || !newGenre || !newScore) {
+        output.innerHTML = "Please write the name of the film, pick a genre and give it a score.";
+        return;
+    }
+
+
 
         film.push( new Film(newTitle, newYear, newGenre, newScore, newComment));
 
+        setTimeout(() => {
+                output.innerHTML += `<p>Add another film to the list!</p>`
+            }, 5000);
 
-        writeAllFilms();
+            writeAllFilms();
+
     }
+
+    //skriva ut infon om filmen
 
     function writeAllFilms() {
         document.getElementById("output").innerHTML = "";
+    let newTitle = document.getElementById("title").value;
+    let newYear = document.getElementById("year").value;
+    let newGenre = document.getElementById("genre").value;
+    let newScore = document.getElementById("score").value;
+    let newComment = document.getElementById("comment").value;
 
-        //loop för att skriva ut info om objektet
 
-        for (let i = 0; i < film.length; i++) {
-            document.getElementById("output").innerHTML += film[i].toString() + "<br>";
-        }
+            for (let i = 0; i < film.length; i++) {
+                document.getElementById("output").innerHTML += film[i].toString() + "<br>";
     }
 
+}
+
+
+    //initiera en funktion för att skriva ut en table
+    function drawTable() {
+            //initerar en output string variable
+            //border är en CSS stilregel
+            let strOutput = '<table style="border: solid 1px"><tr>';
+
+           //loop för att hämta attribut namn med en Forin loop
+        for (var x in film[0]) {
+            strOutput += `<th style = "border: solid 1px">${x}</th>`;
+        }
+
+
+        strOutput += "</tr>";
+
+
+        //en loop för varje objekt i arrayen
+        film.forEach((item, i) => {
+            //lägga till <tr> tag
+            strOutput += "<tr>";
+
+
+
+                //hämta värden för objektets attribut
+                for (var x in item) {
+                    strOutput += `<td style="border: solid 1px">${item[x]}</td>`;
+                }
+
+                //lägga till </tr> tag
+                strOutput += "</tr>";
+        });
+
+        //skriv ut strOutput till en div tag
+        strOutput += "</table>";
+        document.getElementById("output").innerHTML = strOutput;
+    }
+
+
+        function addFilmInTable() {
+    let newTitle = document.getElementById("title").value;
+    let newYear = document.getElementById("year").value;
+    let newGenre = document.getElementById("genre").value;
+    let newScore = document.getElementById("score").value;
+    let newComment = document.getElementById("comment").value;
+
+            if(!newTitle || !newGenre || !newScore) {
+        output.innerHTML = "Please write the name of the film, pick a genre and give it a score.";
+        return;
+            }
+
+            //skapa ett objekt av klassen film
+            let objFilm = new Film(newTitle, newYear, newGenre, newScore, newComment);
+
+            //pusha in objektet till vår array
+            film.push( objFilm );
+
+            //anropa functionen drawtable
+            drawTable();
+        }
 
     </script>
 </head>
@@ -59,31 +148,29 @@ toString() {
     <form>
 <div>
     <label for="title">Do you remember the title of the film?</label>
-    <input id="title" type="text"><br>
+    <input id="title" class="field" type="text" onfocus="this.value=''"><br>
 
     <label for="year">When did you watch it?</label>
-    <!-- Mikaels kod nedan -->
-    <!-- OBS: Jag tog bort inputfältet och ersatte den med 'select' istället -->
-    <select id="selectYear">
+    <select id="year" class="field" onfocus="this.value=''"><br>
       <option></option>
     </select><br>
-    <!-- Mikaels kod ovan -->
+
     <label for="genre">What was the genre of the film?</label>
-    <input id="genre" type="text"><br>
+    <select name="genre" id="genre" onfocus="this.value=''">
+        <option value="" selected="selected">Select subject</option>
+      </select><br>
 
     <label for="score">What score would you give it, out of 10?</label>
-    <!-- Mikaels Kod nedan -->
-    <!-- OBS: Jag tog bort inputfältet och ersatte den med 'select' istället -->
-    <select id="selectNumber">
+    <select id="score" class="field" onfocus="this.value=''"><br>
         <option></option>
     </select><br>
-    <!-- Mikaels kod ovan -->
 
-    <label for="comment">Write a few words or keywords so you remember the movie</label>
-    <input id="comment" type="text"><br>
+    <label for="comment">Write a few words or keywords so you remember the movie.</label>
+    <input id="comment" class="field" type="text" onfocus="this.value=''"><br>
 
 
-    <input type="button" id="btn" onclick="addFilmToTheList();" value="It's in the box!">
+    <input type="button" id="btn" onclick="addFilmToTheList();" value="It's in the box!"><br><br>
+    <input type="button" id="btn" onclick="addFilmInTable();" value="Do you prefer a film table?"><br><br>
 </div>
 </form>
 
@@ -95,30 +182,43 @@ toString() {
 </body>
 
 <script type="text/javascript">
-  //Mikaels Kod nedan
-  //Gör en dropdown lista med 10 alternativ
-  var select = document.getElementById("selectNumber");
-  var options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  for(var i = 0; i < options.length; i++) {
-      var optionsList = options[i];
-      var list = document.createElement("option");
-      list.innerHTML = optionsList;
-      list.value = optionsList;
-      select.appendChild(list);
-  }
-  //Gör en dropdown med år från 1960 till detta år
-  var choseYear = document.getElementById("selectYear");
 
-  var currentYear = (new Date()).getFullYear();
+let select = document.getElementById("genre");
+let options = ["Action", "Thriller", "Drama", "Comedy", "Horror", "Romcom", "Drama comedy", "Documentary", "TV-show"];
+for (var i = 0; i < options.length; i++) {
+    var optionsList = options[i];
+    var list = document.createElement("option");
+    list.textContent = optionsList;
+    list.value = optionsList;
+    select.appendChild(list);
+}
+//Gör en dropdown lista med 10 alternativ
+var selectScore = document.getElementById("score");
+var scorePoint = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+for(var i = 0; i < options.length; i++) {
+    var optionsList = scorePoint[i];
+    var list = document.createElement("option");
+    list.innerHTML = optionsList;
+    list.value = optionsList;
+    selectScore.appendChild(list);
+}
+//Gör en dropdown med år från 1960 till detta år
+var choseYear = document.getElementById("year");
 
-  for (var i = 1960; i <= currentYear; i++) {
-    var yearsss = document.createElement("OPTION");
-    yearsss.innerHTML = i;
-    yearsss.value = i;
-    choseYear.appendChild(yearsss);
-  };
-  //Mikaels kod ovan
+var currentYear = (new Date()).getFullYear();
+
+for (var i = 1960; i <= currentYear; i++) {
+  var yearsss = document.createElement("OPTION");
+  yearsss.innerHTML = i;
+  yearsss.value = i;
+  choseYear.appendChild(yearsss);
+};
+
+
+    film.push( new Film ("Gagarine", "2021", "Drama", "8", "A strong and political story on the notion of space in suburbs."));
+
     writeAllFilms();
+    drawTable();
 
 </script>
 </html>
